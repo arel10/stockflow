@@ -37,10 +37,19 @@ CREATE TABLE sales_order_items (
 );
 
 -- index db
-CREATE INDEX idx_stock_movements_product_id ON stock_movements(product_id);
-CREATE INDEX idx_stock_movements_created_at ON stock_movements(created_at);
-CREATE INDEX idx_sales_orders_status ON sales_orders(status);
-CREATE INDEX idx_sales_orders_created_at ON sales_orders(created_at);
-CREATE INDEX idx_sales_order_items_order_id ON sales_order_items(order_id);
+-- index for history stock on product, newest first
+CREATE INDEX idx_stock_movements_product_created
+ON stock_movements(product_id, created_at DESC, id DESC);
 
+-- index for sales orders by status
+CREATE INDEX idx_sales_orders_status
+ON sales_orders(status);
+
+-- index for sort order new
+CREATE INDEX idx_sales_orders_created_at
+ON sales_orders(created_at DESC);
+
+-- index for search item base on order id
+CREATE INDEX idx_sales_order_items_order_id
+ON sales_order_items(order_id);
 COMMIT;
