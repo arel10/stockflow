@@ -1,0 +1,20 @@
+services:
+  db:
+    image: postgres:17
+    container_name: stockflow_db
+    environment:
+      - POSTGRES_USER=stockflow_user
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=stockflow_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U stockflow_user" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  postgres_data:
