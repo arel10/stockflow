@@ -12,7 +12,7 @@ export const stockApi = {
         data: AdjustStockRequest,
     ): Promise<AdjustStockResponse> {
         return request<AdjustStockResponse>(
-            `/products/${productId}/stock`,
+            `/products/${productId}/adjust`,
             {
                 method: 'POST',
                 body: JSON.stringify(data),
